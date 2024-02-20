@@ -3,6 +3,7 @@ using BlazorWebAppOidc.Components;
 using BlazorWebAppOidc.Hubs;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.Azure.SignalR;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
@@ -149,6 +150,13 @@ builder.Services.AddRazorComponents()
 builder.Services.AddScoped<AuthenticationStateProvider, PersistingAuthenticationStateProvider>();
 
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddSignalR().AddAzureSignalR(options =>
+{
+    options.ConnectionString = "MY_SIGNALR_SERVER";
+    options.ServerStickyMode = ServerStickyMode.Required;
+});
+
 
 var app = builder.Build();
 
