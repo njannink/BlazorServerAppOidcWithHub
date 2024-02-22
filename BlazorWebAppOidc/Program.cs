@@ -68,7 +68,7 @@ builder.Services.AddAuthentication("MicrosoftOidc")
         // ........................................................................
         // The "offline_access" scope is required for the refresh token.
 
-        oidcOptions.Scope.Add("MY_API_SCOPE");
+        oidcOptions.Scope.Add("openid");
         oidcOptions.Scope.Add(OpenIdConnectScope.OfflineAccess);
         // ........................................................................
 
@@ -81,14 +81,14 @@ builder.Services.AddAuthentication("MicrosoftOidc")
         // single-tenant apps, but it requires a custom IssuerValidator as shown 
         // in the comments below. 
 
-        oidcOptions.Authority = "MY_AUTHORITY";
+        oidcOptions.Authority = "https://login.microsoftonline.com/{TENANT ID} /v2.0/";
         // ........................................................................
 
         // ........................................................................
         // Set the Client ID for the app. Set the {CLIENT ID} placeholder to
         // the Client ID.
 
-        oidcOptions.ClientId = "MY_CLIENT_ID";
+        oidcOptions.ClientId = " {CLIENT ID}";
         // ........................................................................
 
         // ........................................................................
@@ -100,7 +100,7 @@ builder.Services.AddAuthentication("MicrosoftOidc")
         // for OIDC configuration is automatically read from 
         // "Authentication:Schemes:MicrosoftOidc:ClientSecret" configuration.
 
-        oidcOptions.ClientSecret = "MY_CLIENT_SECRET";
+        oidcOptions.ClientSecret = "{ClientSecret}";
         // ........................................................................
 
         // ........................................................................
@@ -150,12 +150,13 @@ builder.Services.AddRazorComponents()
 builder.Services.AddScoped<AuthenticationStateProvider, PersistingAuthenticationStateProvider>();
 
 builder.Services.AddHttpContextAccessor();
-
-builder.Services.AddSignalR().AddAzureSignalR(options =>
-{
-    options.ConnectionString = "MY_SIGNALR_SERVER";
-    options.ServerStickyMode = ServerStickyMode.Required;
-});
+builder.Services.AddSignalR()
+//    .AddAzureSignalR(options =>
+//{
+//    options.ConnectionString = "";
+//    options.ServerStickyMode = ServerStickyMode.Required;
+//})
+    ;
 
 
 var app = builder.Build();
